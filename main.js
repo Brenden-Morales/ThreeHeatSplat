@@ -37,13 +37,16 @@ var initialize = function(){
     //TODO hook this method up for orthographic cameras
     //window.addEventListener( 'resize', onWindowResize, false );
 
-    plane = new THREE.Mesh(new THREE.PlaneGeometry(100,100,1,1),new THREE.MeshBasicMaterial({color:0xff0000}));
+    splat = new GaussianSplat({size:100});
+    var tex1 = splat.getTexture();
+
+    plane = new THREE.Mesh(new THREE.PlaneGeometry(100,100,1,1),new THREE.MeshBasicMaterial({map:tex1}));
     scene.add(plane);
 
     splat = new GaussianSplat({size:100});
-    var tex = splat.getTexture();
+    var tex2 = splat.getTexture();
 
-    var plane2 = new THREE.Mesh(new THREE.PlaneGeometry(100,100,1,1),new THREE.MeshBasicMaterial( {map: tex }));
+    var plane2 = new THREE.Mesh(new THREE.PlaneGeometry(100,100,1,1),new THREE.MeshBasicMaterial( {map: tex2 }));
     plane2.position.z = 1;
     plane2.position.y = 50;
     plane2.position.x = 50;

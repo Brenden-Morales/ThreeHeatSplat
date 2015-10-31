@@ -56,7 +56,7 @@
         }
 
         float d(vec2 a, vec2 b) {
-            float c = 0.4;
+            float c = 0.9;
             float q = 0.9;
             float p = 0.9;
             return p * pow(max(0.0, 1.0 - distance(a, b) / (0.25 + q * 0.25)), 2.0);
