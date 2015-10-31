@@ -40,7 +40,7 @@ var initialize = function(){
     plane = new THREE.Mesh(new THREE.PlaneGeometry(100,100,1,1),new THREE.MeshBasicMaterial({color:0xff0000}));
     scene.add(plane);
 
-    splat = new GaussianSplat({size:512});
+    splat = new GaussianSplat({size:100});
     var tex = splat.getTexture();
 
     var plane2 = new THREE.Mesh(new THREE.PlaneGeometry(100,100,1,1),new THREE.MeshBasicMaterial( {map: tex }));

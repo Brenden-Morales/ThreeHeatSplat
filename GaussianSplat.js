@@ -13,9 +13,18 @@ var GaussianSplat = function(options) {
     //the scene that will hold this splat
     self.scene = new THREE.Scene();
 
+    //our fancy material
+    self.shaderMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+            size: { type: "v2", value: new THREE.Vector2(size,size) },
+        },
+        vertexShader: document.getElementById("passThroughVertex").textContent,
+        fragmentShader: document.getElementById("gaussianFragment").textContent
+    });
+
     //the plane that we will render the spat on
     //TODO set the material to a custom shader gaussian creator thing
-    self.plane = new THREE.Mesh(new THREE.PlaneGeometry(size,size,1,1),new THREE.MeshBasicMaterial({color:0x00ff00}));
+    self.plane = new THREE.Mesh(new THREE.PlaneGeometry(size,size,1,1),self.shaderMaterial);
 
     //add the plane to the scene
     self.scene.add(self.plane);
@@ -29,8 +38,6 @@ var GaussianSplat = function(options) {
      * and assembles it into an RGBA element by placing attaching 0.0 to the red, green and blue channels.
      */
 
-    //self.renderer = new THREE.WebGLRenderer( { antialias: false, canvas : document.getElementById("mainCanvas")} );
-    self.renderer = new THREE.WebGLRenderer({antialias:false});
     self.getTexture = function(){
         renderer.render(self.scene,self.camera,self.renderTexture,true);
         return self.renderTexture;
