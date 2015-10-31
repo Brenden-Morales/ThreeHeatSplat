@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" style="width:100%;height:100%;margin:0px;padding:0px">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
+
+    <!-- pass through vertex shader -->
+    <script id="passThroughVertex" type="x-shader/x-vertex">
+        void main()	{
+            gl_Position = vec4( position, 1.0 );
+        }
+    </script>
+
+    <body style="width:100%;height:100%;margin:0px;padding:0px;overflow:hidden" onload="initialize()">
+        <canvas id="mainCanvas" style="width:100%;height:100%;margin:0px;padding:0px"></canvas>
+    </body>
+    <script src="libs/Three.js"></script>
+    <script src="libs/OrbitControls.js"></script>
+    <script src="libs/stats.min.js"></script>
+    <script src="GaussianSplat.js"></script>
+    <script src="main.js"></script>
+</html>
+
