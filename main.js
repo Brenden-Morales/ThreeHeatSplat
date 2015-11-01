@@ -6,8 +6,9 @@
 var renderer, camera, scene, controls, stats;
 var startTime = Date.now();
 var totalTime = 0;
+var jp;
 
-var splats = [];
+//var splats = [];
 
 //initialize function called from body onload()
 var initialize = function(){
@@ -38,20 +39,30 @@ var initialize = function(){
     //TODO hook this method up for orthographic cameras
     //window.addEventListener( 'resize', onWindowResize, false );
 
-    var splatSize = 100;
+    //var splatSize = 100;
 
-    for(var i = 0; i < 500; i ++){
-        var splat = new GaussianSplat({cameraWidth:splatSize,cameraHeight:splatSize});
-        splats.push(splat);
-        var tex = splat.getTexture();
-        var mat = new THREE.MeshBasicMaterial({map:tex,transparent:true,blending:THREE.AdditiveBlending});
-        var plane = new THREE.Mesh(new THREE.PlaneGeometry(splatSize,splatSize,1,1),mat);
-        scene.add(plane);
+    //for(var i = 0; i < 500; i ++){
+    //    var splat = new GaussianSplat({cameraWidth:splatSize,cameraHeight:splatSize});
+    //    splats.push(splat);
+    //    var tex = splat.getTexture();
+    //    var mat = new THREE.MeshBasicMaterial({map:tex,transparent:true,blending:THREE.AdditiveBlending});
+    //    var plane = new THREE.Mesh(new THREE.PlaneGeometry(splatSize,splatSize,1,1),mat);
+    //    scene.add(plane);
+    //
+    //    plane.position.x = Math.random() * window.innerWidth - window.innerWidth / 2;
+    //    plane.position.y = Math.random() * window.innerHeight - window.innerHeight / 2;
+    //
+    //}
 
-        plane.position.x = Math.random() * window.innerWidth - window.innerWidth / 2;
-        plane.position.y = Math.random() * window.innerHeight - window.innerHeight / 2;
+    jp = new JacksonPollock({
+        cameraWidth : window.innerWidth,
+        cameraHeigh : window.innerHeight
+    });
 
-    }
+    var texture = jp.getTexture(1);
+    var material = new THREE.MeshBasicMaterial({map:texture});
+    var plane = new THREE.Mesh(new THREE.PlaneGeometry(window.innerWidth,window.innerHeight,1,1),material);
+    scene.add(plane);
 
     //start up the main animation loop
     requestAnimationFrame(animate);
@@ -77,10 +88,11 @@ function render(){
     var delta = Date.now() - startTime;
     totalTime += delta;
     startTime = Date.now();
+    jp.getTexture(delta);
 
-    for(var i = 0; i < splats.length; i++){
-        splats[i].getTexture(delta);
-    }
+    //for(var i = 0; i < splats.length; i++){
+    //    splats[i].getTexture(delta);
+    //}
 
     renderer.render(scene,camera);
     //splat.renderer.render(splat.scene,splat.camera);
