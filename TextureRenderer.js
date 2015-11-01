@@ -11,6 +11,9 @@ var TextureRenderer = function(options) {
     self.camera = new THREE.OrthographicCamera(self.cameraWidth / -2, self.cameraWidth / 2, self.cameraHeight / 2,self.cameraHeight / -2, 1, 10);
     self.camera.position.z = 2;
 
+    //the scene that will hold this splat
+    self.scene = new THREE.Scene();
+
 
     return self;
 };

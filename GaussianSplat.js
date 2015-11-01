@@ -5,9 +5,6 @@ var GaussianSplat = function(options) {
     var self = this instanceof GaussianSplat ? this : Object.create(GaussianSplat.prototype);
     TextureRenderer.call(self,options);
 
-    //the scene that will hold this splat
-    self.scene = new THREE.Scene();
-
     self.maxTime = 2500;
     self.intensity = Math.random() * self.maxTime;
     self.direction = Math.random() > .5? 1 : -1;
