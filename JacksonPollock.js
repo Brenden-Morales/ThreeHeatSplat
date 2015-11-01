@@ -8,10 +8,14 @@ var JacksonPollock = function(options) {
     var splatSize = 100;
     var splats = [];
 
+    if(options.renderer === undefined){
+        throw "renderer not defined";
+    }
+
     for(var i = 0; i < 500; i ++){
         var splat = new GaussianSplat({cameraWidth:splatSize,cameraHeight:splatSize});
         splats.push(splat);
-        var tex = splat.getTexture();
+        var tex = splat.getTexture(options.renderer,0);
         var mat = new THREE.MeshBasicMaterial({map:tex,transparent:true,blending:THREE.AdditiveBlending});
         var plane = new THREE.Mesh(new THREE.PlaneGeometry(splatSize,splatSize,1,1),mat);
         plane.position.x = Math.random() * window.innerWidth - window.innerWidth / 2;
@@ -19,9 +23,9 @@ var JacksonPollock = function(options) {
         self.scene.add(plane);
     }
 
-    self.getTexture = function(delta){
+    self.getTexture = function(renderer,delta){
         for(var i = 0; i < splats.length; i++){
-            splats[i].getTexture(delta);
+            splats[i].getTexture(renderer,delta);
         }
         self.render(renderer);
         return self.renderTexture;

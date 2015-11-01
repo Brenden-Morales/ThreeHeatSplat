@@ -27,7 +27,7 @@ var GaussianSplat = function(options) {
     //add the plane to the scene
     self.scene.add(self.plane);
 
-    self.getTexture = function(delta){
+    self.getTexture = function(renderer,delta){
         if(delta !== undefined){
             self.intensity += delta * self.direction;
             if(self.intensity < 0){
