@@ -3,10 +3,11 @@
  */
 
 //globals we'll be using often and stuff
-var renderer, camera, scene, controls, stats, plane, splat;
-
+var renderer, camera, scene, controls, stats;
 var startTime = Date.now();
 var totalTime = 0;
+
+var splats = [];
 
 //initialize function called from body onload()
 var initialize = function(){
@@ -36,21 +37,18 @@ var initialize = function(){
 
     //TODO hook this method up for orthographic cameras
     //window.addEventListener( 'resize', onWindowResize, false );
+    for(var i = 0; i < 500; i ++){
+        var splat = new GaussianSplat({size:100});
+        splats.push(splat);
+        var tex = splat.getTexture();
+        var mat = new THREE.MeshBasicMaterial({map:tex,transparent:true,blending:THREE.AdditiveBlending});
+        var plane = new THREE.Mesh(new THREE.PlaneGeometry(100,100,1,1),mat);
+        scene.add(plane);
 
-    splat = new GaussianSplat({size:100});
-    var tex1 = splat.getTexture();
+        plane.position.x = Math.random() * window.innerWidth - window.innerWidth / 2;
+        plane.position.y = Math.random() * window.innerHeight - window.innerHeight / 2;
 
-    plane = new THREE.Mesh(new THREE.PlaneGeometry(100,100,1,1),new THREE.MeshBasicMaterial({map:tex1}));
-    scene.add(plane);
-
-    splat = new GaussianSplat({size:100});
-    var tex2 = splat.getTexture();
-
-    var plane2 = new THREE.Mesh(new THREE.PlaneGeometry(100,100,1,1),new THREE.MeshBasicMaterial( {map: tex2 }));
-    plane2.position.z = 1;
-    plane2.position.y = 50;
-    plane2.position.x = 50;
-    scene.add(plane2);
+    }
 
     //start up the main animation loop
     requestAnimationFrame(animate);
@@ -75,6 +73,10 @@ function animate(){
 function render(){
     totalTime += Date.now() - startTime;
     startTime = Date.now();
+
+    for(var i = 0; i < splats.length; i++){
+        splats[i].getTexture(((totalTime / 1000) % 5) / 5);
+    }
 
     renderer.render(scene,camera);
     //splat.renderer.render(splat.scene,splat.camera);

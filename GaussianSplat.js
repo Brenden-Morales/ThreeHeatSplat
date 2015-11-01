@@ -16,10 +16,12 @@ var GaussianSplat = function(options) {
     //our fancy material
     self.shaderMaterial = new THREE.ShaderMaterial({
         uniforms: {
+            intensity : {type : "f", value : Math.random()},
             size: { type: "v2", value: new THREE.Vector2(size,size) },
         },
         vertexShader: document.getElementById("passThroughVertex").textContent,
-        fragmentShader: document.getElementById("gaussianFragment").textContent
+        fragmentShader: document.getElementById("gaussianFragment").textContent,
+        blending: "AdditiveBlending"
     });
 
     //the plane that we will render the spat on
@@ -38,7 +40,10 @@ var GaussianSplat = function(options) {
      * and assembles it into an RGBA element by placing attaching 0.0 to the red, green and blue channels.
      */
 
-    self.getTexture = function(){
+    self.getTexture = function(intensity){
+        if(intensity !== undefined){
+            self.plane.material.uniforms.intensity.value = intensity;
+        }
         renderer.render(self.scene,self.camera,self.renderTexture,true);
         return self.renderTexture;
     };
