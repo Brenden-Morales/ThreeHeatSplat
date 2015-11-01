@@ -3,12 +3,7 @@
  */
 var GaussianSplat = function(options) {
     var self = this instanceof GaussianSplat ? this : Object.create(GaussianSplat.prototype);
-
-    var size = options.size;
-
-    //the camera that we will render this splat with
-    self.camera = new THREE.OrthographicCamera(size / -2, size / 2, size / 2,size / -2, 1, 10);
-    self.camera.position.z = 2;
+    TextureRenderer.call(self,options);
 
     //the scene that will hold this splat
     self.scene = new THREE.Scene();
@@ -21,7 +16,7 @@ var GaussianSplat = function(options) {
     self.shaderMaterial = new THREE.ShaderMaterial({
         uniforms: {
             intensity : {type : "f", value : 0},
-            size: { type: "v2", value: new THREE.Vector2(size,size) },
+            size: { type: "v2", value: new THREE.Vector2(self.cameraWidth,self.cameraHeight) },
         },
         vertexShader: document.getElementById("passThroughVertex").textContent,
         fragmentShader: document.getElementById("gaussianFragment").textContent,
@@ -30,13 +25,13 @@ var GaussianSplat = function(options) {
 
     //the plane that we will render the spat on
     //TODO set the material to a custom shader gaussian creator thing
-    self.plane = new THREE.Mesh(new THREE.PlaneGeometry(size,size,1,1),self.shaderMaterial);
+    self.plane = new THREE.Mesh(new THREE.PlaneGeometry(self.cameraWidth,self.cameraHeight,1,1),self.shaderMaterial);
 
     //add the plane to the scene
     self.scene.add(self.plane);
 
     //the texture that we'll be rendering the splat to
-    self.renderTexture = new THREE.WebGLRenderTarget(size, size,{ minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat});
+    self.renderTexture = new THREE.WebGLRenderTarget(self.cameraWidth, self.cameraHeight,{ minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat});
     /**
      * THREE.AlphaFormat
      * Each element is a single alpha component.
@@ -64,3 +59,5 @@ var GaussianSplat = function(options) {
 
     return self;
 };
+
+GaussianSplat.prototype = Object.create(TextureRenderer.prototype);

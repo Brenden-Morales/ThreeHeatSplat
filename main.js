@@ -41,7 +41,7 @@ var initialize = function(){
     var splatSize = 100;
 
     for(var i = 0; i < 500; i ++){
-        var splat = new GaussianSplat({size:splatSize});
+        var splat = new GaussianSplat({cameraWidth:splatSize,cameraHeight:splatSize});
         splats.push(splat);
         var tex = splat.getTexture();
         var mat = new THREE.MeshBasicMaterial({map:tex,transparent:true,blending:THREE.AdditiveBlending});
