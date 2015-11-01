@@ -13,10 +13,14 @@ var GaussianSplat = function(options) {
     //the scene that will hold this splat
     self.scene = new THREE.Scene();
 
+    self.maxTime = 2500;
+    self.intensity = Math.random() * self.maxTime;
+    self.direction = Math.random() > .5? 1 : -1;
+
     //our fancy material
     self.shaderMaterial = new THREE.ShaderMaterial({
         uniforms: {
-            intensity : {type : "f", value : Math.random()},
+            intensity : {type : "f", value : 0},
             size: { type: "v2", value: new THREE.Vector2(size,size) },
         },
         vertexShader: document.getElementById("passThroughVertex").textContent,
@@ -40,9 +44,18 @@ var GaussianSplat = function(options) {
      * and assembles it into an RGBA element by placing attaching 0.0 to the red, green and blue channels.
      */
 
-    self.getTexture = function(intensity){
-        if(intensity !== undefined){
-            self.plane.material.uniforms.intensity.value = intensity;
+    self.getTexture = function(delta){
+        if(delta !== undefined){
+            self.intensity += delta * self.direction;
+            if(self.intensity < 0){
+                self.intensity = 0;
+                self.direction = 1;
+            }
+            if(self.intensity > self.maxTime){
+                self.intensity = self.maxTime;
+                self.direction = -1;
+            }
+            self.plane.material.uniforms.intensity.value = self.intensity / self.maxTime;
         }
         renderer.render(self.scene,self.camera,self.renderTexture,true);
         return self.renderTexture;

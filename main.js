@@ -71,11 +71,12 @@ function animate(){
 
 //the actual render function
 function render(){
-    totalTime += Date.now() - startTime;
+    var delta = Date.now() - startTime;
+    totalTime += delta;
     startTime = Date.now();
 
     for(var i = 0; i < splats.length; i++){
-        splats[i].getTexture(((totalTime / 1000) % 5) / 5);
+        splats[i].getTexture(delta);
     }
 
     renderer.render(scene,camera);
