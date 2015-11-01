@@ -37,12 +37,15 @@ var initialize = function(){
 
     //TODO hook this method up for orthographic cameras
     //window.addEventListener( 'resize', onWindowResize, false );
+
+    var splatSize = 100;
+
     for(var i = 0; i < 500; i ++){
-        var splat = new GaussianSplat({size:100});
+        var splat = new GaussianSplat({size:splatSize});
         splats.push(splat);
         var tex = splat.getTexture();
         var mat = new THREE.MeshBasicMaterial({map:tex,transparent:true,blending:THREE.AdditiveBlending});
-        var plane = new THREE.Mesh(new THREE.PlaneGeometry(100,100,1,1),mat);
+        var plane = new THREE.Mesh(new THREE.PlaneGeometry(splatSize,splatSize,1,1),mat);
         scene.add(plane);
 
         plane.position.x = Math.random() * window.innerWidth - window.innerWidth / 2;
