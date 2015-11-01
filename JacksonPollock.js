@@ -8,7 +8,7 @@ var JacksonPollock = function(options) {
     var splatSize = 100;
     var splats = [];
 
-    for(var i = 0; i < 2000; i ++){
+    for(var i = 0; i < 1000; i ++){
         var splat = new GaussianSplat({cameraWidth:splatSize,cameraHeight:splatSize});
         splats.push(splat);
         var tex = splat.getTexture();
@@ -16,7 +16,7 @@ var JacksonPollock = function(options) {
         var plane = new THREE.Mesh(new THREE.PlaneGeometry(splatSize,splatSize,1,1),mat);
         plane.position.x = Math.random() * window.innerWidth - window.innerWidth / 2;
         plane.position.y = Math.random() * window.innerHeight - window.innerHeight / 2;
-        scene.add(plane);
+        self.scene.add(plane);
     }
 
     self.getTexture = function(delta){

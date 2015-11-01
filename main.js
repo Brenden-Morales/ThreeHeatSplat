@@ -56,7 +56,7 @@ var initialize = function(){
 
     jp = new JacksonPollock({
         cameraWidth : window.innerWidth,
-        cameraHeigh : window.innerHeight
+        cameraHeight : window.innerHeight
     });
 
     var texture = jp.getTexture(1);

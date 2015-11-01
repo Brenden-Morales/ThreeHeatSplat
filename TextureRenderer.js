@@ -4,6 +4,9 @@
 var TextureRenderer = function(options) {
     var self = this instanceof TextureRenderer ? this : Object.create(TextureRenderer.prototype);
 
+    if(options.cameraHeight === undefined) throw '"cameraHeight" is undefined';
+    if(options.cameraWidth === undefined) throw '"cameraWidth" is undefined';
+
     self.cameraWidth = options.cameraWidth;
     self.cameraHeight = options.cameraHeight;
 
