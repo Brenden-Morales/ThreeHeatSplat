@@ -79,7 +79,7 @@
         void main(){
             vec2 pos = gl_FragCoord.xy / resolution.xy;
             vec4 heat = texture2D(heatMap,pos);
-            gl_FragColor = vec4(heat5(heat.x),1.0);
+            gl_FragColor = vec4(heat5(heat.x),heat.x);
         }
     </script>
 

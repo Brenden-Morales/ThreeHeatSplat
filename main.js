@@ -13,8 +13,12 @@ var jp;
 //initialize function called from body onload()
 var initialize = function(){
     //setup renderer
-    renderer = new THREE.WebGLRenderer( { antialias: false, canvas : document.getElementById("mainCanvas")} );
+    renderer = new THREE.WebGLRenderer( {
+        antialias: false,
+        alpha : true,
+        canvas : document.getElementById("mainCanvas")} );
     renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setClearColor(0xffffff,0);
     renderer.setSize( window.innerWidth, window.innerHeight );
 
     //setup camera
@@ -52,7 +56,8 @@ var initialize = function(){
             heatMap: { type: "t", value: texture },
         },
         vertexShader: document.getElementById("passThroughVertex").textContent,
-        fragmentShader: document.getElementById("heatBlendFragment").textContent
+        fragmentShader: document.getElementById("heatBlendFragment").textContent,
+        transparent : true
     });
 
     var plane = new THREE.Mesh(new THREE.PlaneGeometry(window.innerWidth,window.innerHeight,1,1),shaderMaterial);

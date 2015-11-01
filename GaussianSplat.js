@@ -38,11 +38,11 @@ var GaussianSplat = function(options) {
         if(delta !== undefined){
             self.intensity += delta * self.direction;
             if(self.intensity < 0){
-                self.intensity = 0;
+                self.intensity = Math.abs(self.intensity);
                 self.direction = 1;
             }
             if(self.intensity > self.maxTime){
-                self.intensity = self.maxTime;
+                self.intensity = self.maxTime - (self.intensity - self.maxTime);
                 self.direction = -1;
             }
             self.plane.material.uniforms.intensity.value = self.intensity / self.maxTime;
