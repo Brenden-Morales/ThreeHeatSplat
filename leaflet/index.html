@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" style="width:100%;height:100%;margin:0px;padding:0px">
-    <head>
-        <meta charset="UTF-8">
-        <title>Three.js Webgl Heatmap</title>
-    </head>
-
-    <!-- pass through vertex shader -->
-    <script id="passThroughVertex" type="x-shader/x-vertex">
+<head>
+    <meta charset="UTF-8">
+    <title>Three.js Webgl Heatmap</title>
+</head>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+<!-- pass through vertex shader -->
+<script id="passThroughVertex" type="x-shader/x-vertex">
         void main()	{
             gl_Position = vec4( position, 1.0 );
         }
     </script>
 
-    <script id="gaussianFragment" type="x-shader/x-fragment">
+<script id="gaussianFragment" type="x-shader/x-fragment">
         uniform vec2 size;
         uniform float intensity;
 
@@ -32,7 +32,7 @@
         }
     </script>
 
-    <script id="heatBlendFragment" type="x-shader/x-fragment">
+<script id="heatBlendFragment" type="x-shader/x-fragment">
         uniform vec2 resolution;
         uniform sampler2D heatMap;
 
@@ -83,21 +83,23 @@
         }
     </script>
 
-    <body style="width:100%;height:100%;margin:0px;padding:0px;overflow:hidden" onload="initialize()">
-        <canvas id="mainCanvas" style="width:100%;height:100%;margin:0px;padding:0px"></canvas>
-        <div style="position:absolute;z-index:2;top:0px;left:0px;width:100%;height:100%;">
-            <div style="float:right">
-                <a href="leaflet/">Leaflet.js</a>
-            </div>
-        </div>
-    </body>
-    <script src="libs/Three.js"></script>
-    <script src="libs/OrbitControls.js"></script>
-    <script src="libs/stats.min.js"></script>
-    <script src="heat/TextureRenderer.js"></script>
-    <script src="heat/GaussianSplat.js"></script>
-    <script src="heat/JacksonPollock.js"></script>
-    <script src="heat/Heatmap.js"></script>
-    <script src="main.js"></script>
+<body style="width:100%;height:100%;margin:0px;padding:0px;overflow:hidden" onload="initialize()">
+<div id="map" style="width:100%;height:100%"></div>
+<canvas id="mainCanvas" style="position:absolute;top:0px;left:0px;z-index:2;width:100%;height:100%;margin:0px;padding:0px;pointer-events:none"></canvas>
+<div style="position:absolute;z-index:3;top:0px;left:0px;width:100%;height:100%;pointer-events:none">
+    <div style="float:right;pointer-events:all">
+        <a href="../">Main</a>
+    </div>
+</div>
+</body>
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script src="../libs/Three.js"></script>
+<script src="../libs/OrbitControls.js"></script>
+<script src="../libs/stats.min.js"></script>
+<script src="../heat/TextureRenderer.js"></script>
+<script src="../heat/GaussianSplat.js"></script>
+<script src="../heat/JacksonPollock.js"></script>
+<script src="../heat/Heatmap.js"></script>
+<script src="main.js"></script>
 </html>
 
