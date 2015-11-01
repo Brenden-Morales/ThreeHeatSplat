@@ -16,6 +16,26 @@
         uniform vec2 size;
         uniform float intensity;
 
+        float d(vec2 a, vec2 b) {
+            float c = 0.9;
+            float q = 0.9;
+            float p = 0.9;
+            return p * pow(max(0.0, 1.0 - distance(a, b) / (0.25 + q * 0.25)), 2.0);
+        }
+
+        void main(){
+            vec2 uv = gl_FragCoord.xy / size.xy;
+
+            vec2 center = vec2(0.5,0.5);
+            float weight = d(uv,center);
+            gl_FragColor = vec4(weight * intensity,0.0,0.0,1.0);
+        }
+    </script>
+
+    <script id="heatBlendFragment" type="x-shader/x-fragment">
+        uniform vec2 resolution;
+        uniform sampler2D heatMap;
+
         vec3 fromRedToGreen( float interpolant )
         {
             if( interpolant < 0.5 )
@@ -56,21 +76,10 @@
             }
         }
 
-        float d(vec2 a, vec2 b) {
-            float c = 0.9;
-            float q = 0.9;
-            float p = 0.9;
-            return p * pow(max(0.0, 1.0 - distance(a, b) / (0.25 + q * 0.25)), 2.0);
-        }
-
         void main(){
-            vec2 uv = gl_FragCoord.xy / size.xy;
-
-            vec2 center = vec2(0.5,0.5);
-            float weight = d(uv,center);
-            gl_FragColor = vec4(weight * intensity,0.0,0.0,1.0);
-
-            //gl_FragColor = vec4(heat5(weight),weight);
+            vec2 pos = gl_FragCoord.xy / resolution.xy;
+            vec4 heat = texture2D(heatMap,pos);
+            gl_FragColor = vec4(heat5(heat.x),1.0);
         }
     </script>
 

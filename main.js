@@ -39,29 +39,23 @@ var initialize = function(){
     //TODO hook this method up for orthographic cameras
     //window.addEventListener( 'resize', onWindowResize, false );
 
-    //var splatSize = 100;
-
-    //for(var i = 0; i < 500; i ++){
-    //    var splat = new GaussianSplat({cameraWidth:splatSize,cameraHeight:splatSize});
-    //    splats.push(splat);
-    //    var tex = splat.getTexture();
-    //    var mat = new THREE.MeshBasicMaterial({map:tex,transparent:true,blending:THREE.AdditiveBlending});
-    //    var plane = new THREE.Mesh(new THREE.PlaneGeometry(splatSize,splatSize,1,1),mat);
-    //    scene.add(plane);
-    //
-    //    plane.position.x = Math.random() * window.innerWidth - window.innerWidth / 2;
-    //    plane.position.y = Math.random() * window.innerHeight - window.innerHeight / 2;
-    //
-    //}
-
     jp = new JacksonPollock({
         cameraWidth : window.innerWidth,
         cameraHeight : window.innerHeight
     });
-
     var texture = jp.getTexture(1);
-    var material = new THREE.MeshBasicMaterial({map:texture});
-    var plane = new THREE.Mesh(new THREE.PlaneGeometry(window.innerWidth,window.innerHeight,1,1),material);
+
+    //fancy shader translation material
+    var shaderMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+            resolution: { type: "v2", value: new THREE.Vector2(window.innerWidth,window.innerHeight) },
+            heatMap: { type: "t", value: texture },
+        },
+        vertexShader: document.getElementById("passThroughVertex").textContent,
+        fragmentShader: document.getElementById("heatBlendFragment").textContent
+    });
+
+    var plane = new THREE.Mesh(new THREE.PlaneGeometry(window.innerWidth,window.innerHeight,1,1),shaderMaterial);
     scene.add(plane);
 
     //start up the main animation loop

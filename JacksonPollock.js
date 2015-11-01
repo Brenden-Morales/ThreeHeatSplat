@@ -8,7 +8,7 @@ var JacksonPollock = function(options) {
     var splatSize = 100;
     var splats = [];
 
-    for(var i = 0; i < 1000; i ++){
+    for(var i = 0; i < 500; i ++){
         var splat = new GaussianSplat({cameraWidth:splatSize,cameraHeight:splatSize});
         splats.push(splat);
         var tex = splat.getTexture();
