@@ -17,6 +17,11 @@ var TextureRenderer = function(options) {
     //the texture that we'll be rendering the scene to
     self.renderTexture = new THREE.WebGLRenderTarget(self.cameraWidth, self.cameraHeight,{ minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat});
 
+    //render to the texture
+    self.render = function(renderer){
+        renderer.render(self.scene,self.camera,self.renderTexture,true);
+    };
+
 
     return self;
 };

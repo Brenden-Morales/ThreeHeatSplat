@@ -47,7 +47,7 @@ var GaussianSplat = function(options) {
             }
             self.plane.material.uniforms.intensity.value = self.intensity / self.maxTime;
         }
-        renderer.render(self.scene,self.camera,self.renderTexture,true);
+        self.render(renderer);
         return self.renderTexture;
     };
 
