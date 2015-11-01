@@ -88,11 +88,5 @@ function render(){
     totalTime += delta;
     startTime = Date.now();
     jp.getTexture(delta);
-
-    //for(var i = 0; i < splats.length; i++){
-    //    splats[i].getTexture(delta);
-    //}
-
     renderer.render(scene,camera);
-    //splat.renderer.render(splat.scene,splat.camera);
 }

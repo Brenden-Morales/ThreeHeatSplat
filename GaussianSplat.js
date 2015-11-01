@@ -27,13 +27,6 @@ var GaussianSplat = function(options) {
     //add the plane to the scene
     self.scene.add(self.plane);
 
-    /**
-     * THREE.AlphaFormat
-     * Each element is a single alpha component.
-     * The system converts it to floating point, clamped to the range [0, 1],
-     * and assembles it into an RGBA element by placing attaching 0.0 to the red, green and blue channels.
-     */
-
     self.getTexture = function(delta){
         if(delta !== undefined){
             self.intensity += delta * self.direction;
