@@ -27,8 +27,6 @@ var GaussianSplat = function(options) {
     //add the plane to the scene
     self.scene.add(self.plane);
 
-    //the texture that we'll be rendering the splat to
-    self.renderTexture = new THREE.WebGLRenderTarget(self.cameraWidth, self.cameraHeight,{ minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat});
     /**
      * THREE.AlphaFormat
      * Each element is a single alpha component.
