@@ -11,7 +11,7 @@ var startTime = Date.now();
 var initialize = function(){
 
     var map = L.map('map').setView([51.505, -0.09], 13);
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    var canvasImageLayer = L.TileLayer.canvasImageLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
         maxZoom: 18,
         id: 'brendenmorales.o25eegf6',
@@ -21,7 +21,13 @@ var initialize = function(){
     heatmap = new Heatmap({canvas : document.getElementById("mainCanvas")});
     heatmap.render();
 
-    //start up the main animation loop
+    canvasImageLayer.on("tileload",function(event){
+        var context = event.tile.tile.getContext("2d");
+        context.beginPath();
+        context.drawImage(event.tile,0,0);
+    });
+
+        //start up the main animation loop
     requestAnimationFrame(animate);
 
 };
