@@ -14,7 +14,8 @@
 
     <script id="gaussianFragment" type="x-shader/x-fragment">
         uniform vec2 size;
-        uniform float intensity;
+        uniform float time;
+        uniform float readings[24];
 
         float d(vec2 a, vec2 b) {
             float c = 0.9;
@@ -23,14 +24,118 @@
             return p * pow(max(0.0, 1.0 - distance(a, b) / (0.25 + q * 0.25)), 2.0);
         }
 
+        float v(){
+            float firstValue = 0.0;
+            float secondValue = 0.0;
+            if(int(int(24.0*time)) == 0){
+                firstValue = readings[0];
+                secondValue = readings[1];
+            }
+            else if(int(24.0*time) == 1){
+                firstValue = readings[1];
+                secondValue = readings[2];
+            }
+            else if(int(24.0*time) == 2){
+                firstValue = readings[2];
+                secondValue = readings[3];
+            }
+            else if(int(24.0*time) == 3){
+                firstValue = readings[3];
+                secondValue = readings[4];
+            }
+            else if(int(24.0*time) == 4){
+                firstValue = readings[4];
+                secondValue = readings[5];
+            }
+            else if(int(24.0*time) == 5){
+                firstValue = readings[5];
+                secondValue = readings[6];
+            }
+            else if(int(24.0*time) == 6){
+                firstValue = readings[6];
+                secondValue = readings[7];
+            }
+            else if(int(24.0*time) == 7){
+                firstValue = readings[7];
+                secondValue = readings[8];
+            }
+            else if(int(24.0*time) == 8){
+                firstValue = readings[8];
+                secondValue = readings[9];
+            }
+            else if(int(24.0*time) == 9){
+                firstValue = readings[9];
+                secondValue = readings[10];
+            }
+            else if(int(24.0*time) == 10){
+                firstValue = readings[10];
+                secondValue = readings[11];
+            }
+            else if(int(24.0*time) == 11){
+                firstValue = readings[11];
+                secondValue = readings[12];
+            }
+            else if(int(24.0*time) == 12){
+                firstValue = readings[12];
+                secondValue = readings[13];
+            }
+            else if(int(24.0*time) == 13){
+                firstValue = readings[13];
+                secondValue = readings[14];
+            }
+            else if(int(24.0*time) == 14){
+                firstValue = readings[14];
+                secondValue = readings[15];
+            }
+            else if(int(24.0*time) == 15){
+                firstValue = readings[15];
+                secondValue = readings[16];
+            }
+            else if(int(24.0*time) == 16){
+                firstValue = readings[16];
+                secondValue = readings[17];
+            }
+            else if(int(24.0*time) == 17){
+                firstValue = readings[17];
+                secondValue = readings[18];
+            }
+            else if(int(24.0*time) == 18){
+                firstValue = readings[18];
+                secondValue = readings[19];
+            }
+            else if(int(24.0*time) == 19){
+                firstValue = readings[19];
+                secondValue = readings[20];
+            }
+            else if(int(24.0*time) == 20){
+                firstValue = readings[20];
+                secondValue = readings[21];
+            }
+            else if(int(24.0*time) == 21){
+                firstValue = readings[21];
+                secondValue = readings[22];
+            }
+            else if(int(24.0*time) == 22){
+                firstValue = readings[22];
+                secondValue = readings[23];
+            }
+
+            //could simplify this but whatever I guess
+            float slope = secondValue - firstValue;
+            float timeFragment = mod((24.0 * time),1.0);
+            float value = firstValue + slope * timeFragment;
+            return value;
+        }
+
         void main(){
             vec2 uv = gl_FragCoord.xy / size.xy;
 
+
             vec2 center = vec2(0.5,0.5);
             float weight = d(uv,center);
-            gl_FragColor = vec4(weight * intensity,0.0,0.0,1.0);
+            gl_FragColor = vec4(weight * v(),0.0,0.0,1.0);
         }
-    </script>
+</script>
 
     <script id="heatBlendFragment" type="x-shader/x-fragment">
         uniform vec2 resolution;

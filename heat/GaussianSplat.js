@@ -5,14 +5,23 @@ var GaussianSplat = function(options) {
     var self = this instanceof GaussianSplat ? this : Object.create(GaussianSplat.prototype);
     TextureRenderer.call(self,options);
 
-    self.maxTime = 2500;
-    self.intensity = Math.random() * self.maxTime;
-    self.direction = Math.random() > .5? 1 : -1;
+    self.maxTime = 24000;
+    self.currentTime = 0;
+
+    var readings = (function(){
+        var ret = [];
+        for(var i = 0; i < 24; i ++){
+            ret.push(Math.random());
+        }
+        return ret;
+    })();
 
     //our fancy material
     self.shaderMaterial = new THREE.ShaderMaterial({
         uniforms: {
-            intensity : {type : "f", value : 0},
+            time : {type : "f", value : 0},
+            readCount : {type : "uInt", value : 24},
+            readings : {type : "fv1", value : readings},
             size: { type: "v2", value: new THREE.Vector2(self.cameraWidth,self.cameraHeight) },
         },
         vertexShader: document.getElementById("passThroughVertex").textContent,
@@ -29,16 +38,12 @@ var GaussianSplat = function(options) {
 
     self.getTexture = function(renderer,delta){
         if(delta !== undefined){
-            self.intensity += delta * self.direction;
-            if(self.intensity < 0){
-                self.intensity = Math.abs(self.intensity);
-                self.direction = 1;
+            if((self.currentTime + delta) > self.maxTime){
+                self.currentTime = 0;
             }
-            if(self.intensity > self.maxTime){
-                self.intensity = self.maxTime - (self.intensity - self.maxTime);
-                self.direction = -1;
-            }
-            self.plane.material.uniforms.intensity.value = self.intensity / self.maxTime;
+            else
+                self.currentTime += delta;
+            self.plane.material.uniforms.time.value = self.currentTime / self.maxTime;
         }
         self.render(renderer);
         return self.renderTexture;
